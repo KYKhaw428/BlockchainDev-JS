@@ -193,9 +193,9 @@ class Blockchain{
 
         // Making sure that the amount sent is not greater than existing balance
         // Uncomment this section when running on full stack.
-        // if (this.getBalanceOfAddress(transaction.fromAddress) < transaction.amount) {
-        //     throw new Error('Not enough balance');
-        // }
+        if (this.getBalanceOfAddress(transaction.fromAddress) < transaction.amount) {
+            throw new Error('Not enough balance');
+        }
 
         this.pendingTransactions.push(transaction);
         debug('transaction added: %s', transaction);
@@ -208,7 +208,7 @@ class Blockchain{
      * @returns {number} The balance of the wallet
      */
     getBalanceOfAddress(address){
-        let balance = 0;
+        let balance = 0; // change the balance to be above 0 and more than the first transaction when testing.
 
         for (const block of this.chain) {
             for (const trans of block.transactions) {
@@ -264,7 +264,7 @@ class Blockchain{
             return false;
         }
 
-        // Check the remaining blocks on the chain to see if there hashes and
+        // Check the remaining blocks on the chain to see if the hashes and
         // signatures are correct
         for(let i = 1; i < this.chain.length; i++) {
             const currentBlock = this.chain[i];
